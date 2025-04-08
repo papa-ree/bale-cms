@@ -19,6 +19,7 @@ class BaleCmsServiceProvider extends PackageServiceProvider
             ->name('bale-cms')
             ->hasConfigFile()
             ->hasViews()
+            ->hasRoute('web')
             ->hasMigration('create_bale_cms_table')
             ->hasCommand(BaleCmsCommand::class);
     }
