@@ -1,12 +1,12 @@
 <?php
 
-namespace VendorName\Skeleton\Commands;
+namespace Paparee\BaleCms\Commands;
 
 use Illuminate\Console\Command;
 
-class SkeletonCommand extends Command
+class BaleCmsCommand extends Command
 {
-    public $signature = 'skeleton';
+    public $signature = 'bale-cms';
 
     public $description = 'My command';
 
