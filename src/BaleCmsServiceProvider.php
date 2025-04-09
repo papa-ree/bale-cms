@@ -2,6 +2,7 @@
 
 namespace Paparee\BaleCms;
 
+use Illuminate\Support\Facades\Route;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 use Paparee\BaleCms\Commands\BaleCmsCommand;
@@ -19,8 +20,14 @@ class BaleCmsServiceProvider extends PackageServiceProvider
             ->name('bale-cms')
             ->hasConfigFile()
             ->hasViews()
-            ->hasRoute('web')
             ->hasMigration('create_bale_cms_table')
             ->hasCommand(BaleCmsCommand::class);
+    }
+
+    public function bootingPackage()
+    {
+        foreach (glob(__DIR__ . '/../routes/*.php') as $routeFile) {
+            Route::middleware('web')->group($routeFile);
+        }
     }
 }
