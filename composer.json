@@ -27,7 +27,6 @@
         "icehouse-ventures/laravel-chartjs": "*",
         "jantinnerezo/livewire-alert": "*",
         "josiasmontag/laravel-recaptchav3": "*",
-        "kreait/laravel-firebase": "*",
         "laravel-lang/common": "*",
         "laravel/sanctum": "*",
         "laravel/tinker": "*",
