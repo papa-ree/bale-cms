@@ -53,7 +53,8 @@
     },
     "autoload": {
         "psr-4": {
-            "Paparee\\BaleCms\\Database\\Factories\\": "database/factories/"
+            "Paparee\\BaleCms\\Database\\Factories\\": "database/factories/",
+            "Paparee\\BaleCms\\": "src/"
         }
     },
     "autoload-dev": {
