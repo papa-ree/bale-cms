@@ -53,6 +53,10 @@ class BaleCmsServiceProvider extends PackageServiceProvider
         ], 'bale-cms-views');
 
         $this->publishes([
+            __DIR__.'/../resources/js/firebase.js' => resource_path('views/js/firebase.js'),
+        ], 'bale-cms-assets');
+
+        $this->publishes([
             __DIR__.'/../database/migrations' => base_path('database/migrations'),
             __DIR__.'/../database/migrations/tenant' => base_path('database/migrations/tenant'),
             __DIR__.'/../database/seeders/RolesAndPermissionsSeeder.php' => base_path('database/seeders/RolesAndPermissionsSeeder.php'),
