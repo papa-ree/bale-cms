@@ -6,7 +6,7 @@ use Laravel\Fortify\Http\Controllers\AuthenticatedSessionController;
 use Laravel\Fortify\RoutePath;
 use Livewire\Volt\Volt;
 use App\Livewire\Landlord\Dashboard\Index;
-use App\Livewire\SharedComponents\Pages\UserProfile\Index as UserProfileIndex;
+// use App\Livewire\SharedComponents\Pages\UserProfile\Index as UserProfileIndex;
 use App\Livewire\Tenant\Dashboard\Index as TenantDashboardIndex;
 use Paparee\BaleCms\App\Controller\TwoFactorAuthenticatedSessionController;
 use Paparee\BaleCms\App\Controller\UpdateFirebaseTokenController;
