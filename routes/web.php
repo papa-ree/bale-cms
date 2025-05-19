@@ -93,14 +93,14 @@ Route::localizedGroup(function () {
                 });
             });
 
-            Route::group(['middleware' => ['permission:user management']], function () {
-                Route::name('user-lists.')->group(function () {
-                    Volt::route('user-lists', 'shared-components/pages/user-list/index')->name('index');
-                    Volt::route('user-lists.create.{user}', 'shared-components/pages/user-list/user-cru')->name('create');
-                    Volt::route('user-lists.edit.{user}', 'shared-components/pages/user-list/user-cru')->name('edit');
-                    Volt::route('user-lists.deleted', 'shared-components/pages/user-list/deleted-user')->name('deleted');
-                });
-            });
+            // Route::group(['middleware' => ['permission:user management']], function () {
+            //     Route::name('user-lists.')->group(function () {
+            //         Volt::route('user-lists', 'shared-components/pages/user-list/index')->name('index');
+            //         Volt::route('user-lists.create.{user}', 'shared-components/pages/user-list/user-cru')->name('create');
+            //         Volt::route('user-lists.edit.{user}', 'shared-components/pages/user-list/user-cru')->name('edit');
+            //         Volt::route('user-lists.deleted', 'shared-components/pages/user-list/deleted-user')->name('deleted');
+            //     });
+            // });
 
         //     // redirect route
         //     Route::get('user/profile', function () {
