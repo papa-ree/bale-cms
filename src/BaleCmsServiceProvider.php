@@ -2,70 +2,67 @@
 
 namespace Paparee\BaleCms;
 
+use Illuminate\Routing\Router;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Route;
-use Illuminate\View\AnonymousComponent;
-use Livewire\Livewire;
 use Livewire\Volt\Volt;
-use Paparee\BaleCms\App\Livewire\SharedComponents\Pages\UserProfile\Section\UpdatePhotoProfile;
+use Paparee\BaleCms\Commands\CreateTenantCommand;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
-use Paparee\BaleCms\Commands\BaleCmsCommand;
-use RecursiveDirectoryIterator;
-use RecursiveIteratorIterator;
-use Illuminate\Support\Str;
-use Paparee\BaleCms\App\Livewire\SharedComponents\Pages\UserProfile\Section\BrowserSession;
-use Paparee\BaleCms\App\Livewire\SharedComponents\Pages\UserProfile\Section\TwoFactorAuthentication;
-use Paparee\BaleCms\App\Livewire\SharedComponents\Pages\UserProfile\Section\UpdatePassword;
-use Paparee\BaleCms\App\Livewire\SharedComponents\Pages\UserProfile\Section\UpdateProfileInformation;
 
 class BaleCmsServiceProvider extends PackageServiceProvider
 {
     public function register()
     {
         $this->mergeConfigFrom(__DIR__.'/../config/bale-cms.php', 'bale-cms');
+
+        $this->commands([
+            CreateTenantCommand::class,
+        ]);
     }
 
     public function boot()
     {
+        // middleware
+        $router = $this->app->make(Router::class);
+        $router->aliasMiddleware('recaptcha', \Paparee\BaleCms\App\Middleware\VerifyCaptcha::class);
+        $router->aliasMiddleware('view logs', \Paparee\BaleCms\App\Middleware\ViewLogs::class);
+        $router->aliasMiddleware('set locale', \Paparee\BaleCms\App\Middleware\SetLocale::class);
+
         // Registering package views
         $this->loadViewsFrom(__DIR__.'/../resources/views', 'bale-cms');
         
         Volt::mount([
-            'shared-components.volt' => __DIR__.'/../resources/views/livewire/shared-components/volt',
-        ]);
-
-        Volt::mount([
             'bale-script' => __DIR__.'/../resources/views/scripts/bale-script.blade.php',
         ]);
-
-        // Load folder extend
-        $this->loadViewsFrom(__DIR__.'/../resources/views/extend', 'bale-cms-extend');
-
         
+        // register bale script
         Blade::component('bale-cms::scripts.bale-script', 'bale-cms::script');
-
-        Livewire::component('pages.user-profile.section.update-photo-profile', UpdatePhotoProfile::class);
-        Livewire::component('pages.user-profile.section.update-profile-information', UpdateProfileInformation::class);
-        Livewire::component('pages.user-profile.section.update-password', UpdatePassword::class);
-        Livewire::component('pages.user-profile.section.two-factor-authentication', TwoFactorAuthentication::class);
-        Livewire::component('pages.user-profile.section.browser-session', BrowserSession::class);
 
         // Config publish
         $this->publishes([
+            __DIR__.'/../config/authentication-log.php' => config_path('authentication-log.php'),
             __DIR__.'/../config/bale-cms.php' => config_path('bale-cms.php'),
+            __DIR__.'/../config/blade-lucide-icons.php' => config_path('blade-lucide-icons.php'),
+            __DIR__.'/../config/livewire-alert.php' => config_path('livewire-alert.php'),
         ], 'bale-cms-config');
 
         $this->publishes([
-            __DIR__.'/../resources/views/layouts/app.blade.php' => resource_path('views/components/layouts/app.blade.php'),
-            __DIR__.'/../resources/views/extend' => resource_path('views/components/extend'),
+            __DIR__.'/../resources/views/components/bale' => resource_path('views/components/bale'),
             __DIR__.'/../resources/views/livewire' => resource_path('views/livewire'),
-            __DIR__.'/../src/App/Livewire' => app_path('Livewire'),
         ], 'bale-cms-views');
+
+        $this->publishes([
+            __DIR__.'/../database/migrations' => base_path('database/migrations'),
+            __DIR__.'/../database/migrations/tenant' => base_path('database/migrations/tenant'),
+            __DIR__.'/../database/seeders/RolesAndPermissionsSeeder.php' => base_path('database/seeders/RolesAndPermissionsSeeder.php'),
+            __DIR__.'/../database/seeders/UserSeeder.php' => base_path('database/seeders/UserSeeder.php'),
+        ], 'bale-cms-migrations');
 
         foreach (glob(__DIR__ . '/../routes/*.php') as $routeFile) {
             Route::middleware('web')->group($routeFile);
         }
+
     }
 
     public function configurePackage(Package $package): void
@@ -79,31 +76,6 @@ class BaleCmsServiceProvider extends PackageServiceProvider
             ->name('bale-cms')
             ->hasConfigFile()
             ->discoversMigrations()
-            ->hasCommand(BaleCmsCommand::class);
-    }
-
-    protected function registerAnonymousBladeComponents(string $basePath, string $viewPrefix): void
-    {
-        $iterator = new RecursiveIteratorIterator(
-            new RecursiveDirectoryIterator($basePath)
-        );
-
-        foreach ($iterator as $file) {
-            if ($file->getExtension() !== 'php') {
-                continue;
-            }
-
-            $relativePath = Str::after($file->getPath(), $basePath);
-            $filename = $file->getBasename('.blade.php');
-
-            $pathSegments = trim(str_replace(DIRECTORY_SEPARATOR, '.', $relativePath), '.');
-            $componentAlias = $pathSegments
-                ? "extend.{$pathSegments}.{$filename}"
-                : "extend.{$filename}";
-
-            $viewPath = "{$viewPrefix}::extend" . ($pathSegments ? ".{$pathSegments}" : '') . ".{$filename}";
-
-            Blade::component($viewPath, $componentAlias);
-        }
+            ->hasCommand(CreateTenantCommand::class);
     }
 }

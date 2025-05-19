@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('tenants', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->uuid('user_uuid');
+            $table->uuid('user_uuid')->nullable();
             $table->string('database')->unique();
             $table->enum('status', ['active', 'inactive'])->default('active');
             $table->timestamps();

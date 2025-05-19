@@ -71,6 +71,8 @@ class RolesAndPermissionsSeeder extends Seeder
 
         Role::create(['name' => 'admin', 'guard_name' => 'web'])
         ->givePermissionTo($admin_permissions);
-
+        
+        Role::create(['name' => 'tenant', 'guard_name' => 'web'])
+        ->givePermissionTo($admin_permissions);
     }
 }

@@ -43,7 +43,7 @@
                 <div class="mt-4">
                     <x-label for="code" value="{{ __('Code') }}" />
 
-                    <x-extend.bale-input id="code" type="text" name="code" class="block w-1/2 mt-1"
+                    <x-bale.input id="code" type="text" name="code" class="block w-1/2 mt-1"
                         inputmode="numeric" autofocus autocomplete="one-time-code" wire:model="code"
                         wire:keydown.enter="confirmTwoFactorAuthentication" />
 
@@ -71,30 +71,30 @@
     <div class="flex items-center justify-end mt-5">
         @if (!$this->enabled)
             <x-confirms-password wire:then="enableTwoFactorAuthentication">
-                <x-extend.bale-button type="button" label="enable" wire:loading.attr="disabled" />
+                <x-bale.button type="button" label="enable" wire:loading.attr="disabled" />
             </x-confirms-password>
         @else
             @if ($showingRecoveryCodes)
                 <x-confirms-password wire:then="regenerateRecoveryCodes">
-                    <x-extend.bale-secondary-button label="Regenerate Recovery Codes" class="me-3" />
+                    <x-bale.secondary-button label="Regenerate Recovery Codes" class="me-3" />
                 </x-confirms-password>
             @elseif ($showingConfirmation)
                 <x-confirms-password wire:then="confirmTwoFactorAuthentication">
-                    <x-extend.bale-button type="button" label="Confirm" class="me-3" wire:loading.attr="disabled" />
+                    <x-bale.button type="button" label="Confirm" class="me-3" wire:loading.attr="disabled" />
                 </x-confirms-password>
             @else
                 <x-confirms-password wire:then="showRecoveryCodes">
-                    <x-extend.bale-secondary-button label="Show Recovery Codes" class="me-3" spinner />
+                    <x-bale.secondary-button label="Show Recovery Codes" class="me-3" spinner />
                 </x-confirms-password>
             @endif
 
             @if ($showingConfirmation)
                 <x-confirms-password wire:then="disableTwoFactorAuthentication">
-                    <x-extend.bale-secondary-button label="cancel" wire:loading.attr="disabled" />
+                    <x-bale.secondary-button label="cancel" wire:loading.attr="disabled" />
                 </x-confirms-password>
             @else
                 <x-confirms-password wire:then="disableTwoFactorAuthentication">
-                    <x-extend.bale-danger-button label="disable" wire:loading.attr="disabled" />
+                    <x-bale.danger-button label="disable" wire:loading.attr="disabled" />
                 </x-confirms-password>
             @endif
 

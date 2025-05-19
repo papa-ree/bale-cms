@@ -51,10 +51,10 @@ use function Livewire\Volt\{state};
             <div class="flex flex-row items-center justify-end gap-2">
 
                 {{-- get from package --}}
-                <livewire:topbar-notification-dropdown />
-                <x-extend.dark-mode-toggle />
-                <livewire:topbar-locale-dropdown />
-                <livewire:topbar-account-dropdown />
+                <livewire:shared-components.volt.topbar-notification-dropdown />
+                <x-bale.dark-mode-toggle />
+                <livewire:shared-components.volt.topbar-locale-dropdown />
+                <livewire:shared-components.volt.topbar-account-dropdown />
 
             </div>
         </div>

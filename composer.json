@@ -1,12 +1,12 @@
 {
-    "name": "paparee/bale-cms",
+    "name": "papa-ree/bale-cms",
     "description": "Bale CMS Core",
     "keywords": [
-        "paparee",
+        "papa-ree",
         "laravel",
         "bale-cms"
     ],
-    "homepage": "https://github.com/paparee/bale-cms",
+    "homepage": "https://github.com/papa-ree/bale-cms",
     "license": "MIT",
     "authors": [
         {
@@ -35,7 +35,6 @@
         "rtconner/laravel-tagging": "*",
         "spatie/laravel-activitylog": "*",
         "spatie/laravel-permission": "*",
-        "wire-elements/modal": "*",
         "yadahan/laravel-authentication-log": "*"
     },
     "require-dev": {
@@ -53,8 +52,9 @@
     },
     "autoload": {
         "psr-4": {
+            "Paparee\\BaleCms\\": "src/",
             "Paparee\\BaleCms\\Database\\Factories\\": "database/factories/",
-            "Paparee\\BaleCms\\": "src/"
+            "Paparee\\BaleCms\\Database\\Seeder\\": "database/seeders/"
         }
     },
     "autoload-dev": {

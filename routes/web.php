@@ -4,11 +4,12 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Laravel\Fortify\Http\Controllers\AuthenticatedSessionController;
 use Laravel\Fortify\RoutePath;
-use Paparee\BaleCms\App\Livewire\Landlord\Dashboard\Index;
-use Paparee\BaleCms\App\Livewire\SharedComponents\Pages\UserProfile\Index as UserProfileIndex;
-use Paparee\BaleCms\App\Livewire\Tenant\Dashboard\Index as TenantDashboardIndex;
-use Paparee\BaleCms\App\Livewire\TwoFactorAuthenticatedSessionController;
-use Paparee\BaleCms\App\Livewire\UpdateFirebaseToken;
+use Livewire\Volt\Volt;
+use App\Livewire\Landlord\Dashboard\Index;
+use App\Livewire\SharedComponents\Pages\UserProfile\Index as UserProfileIndex;
+use App\Livewire\Tenant\Dashboard\Index as TenantDashboardIndex;
+use Paparee\BaleCms\App\Controller\TwoFactorAuthenticatedSessionController;
+use Paparee\BaleCms\App\Controller\UpdateFirebaseTokenController;
 
 Route::get('/lang/{locale}', function ($locale) {
     if (! in_array($locale, ['en', 'id'])) {
@@ -45,7 +46,7 @@ Route::localizedGroup(function () {
             'verified',
         ])->group(function () {
 
-            Route::patch('update-fcm-token', [UpdateFirebaseToken::class, 'updateToken'])->name('update-fcm-token');
+            Route::patch('update-fcm-token', [UpdateFirebaseTokenController::class, 'updateToken'])->name('update-fcm-token');
 
             // redirect route
             Route::get('/dashboard', function () {
@@ -75,6 +76,29 @@ Route::localizedGroup(function () {
             Route::group(['middleware' => ['permission:manage user profile']], function () {
                 Route::name('user-profile.')->group(function () {
                     Route::get('user.profiles', UserProfileIndex::class)->name('index');
+                });
+            });
+
+            Route::group(['middleware' => ['permission:role management']], function () {
+                Route::name('roles.')->group(function () {
+                    Volt::route('roles', 'shared-components/pages/role/index')->name('index');
+                    Volt::route('roles.create', 'shared-components/pages/role/role-cru')->name('create');
+                    Volt::route('roles.edit.{role}', 'shared-components/pages/role/role-cru')->name('edit');
+                });
+            });
+
+            Route::group(['middleware' => ['permission:permission management']], function () {
+                Route::name('permissions.')->group(function () {
+                    Volt::route('permissions', 'shared-components/pages/permission/index')->name('index');
+                });
+            });
+
+            Route::group(['middleware' => ['permission:user management']], function () {
+                Route::name('user-lists.')->group(function () {
+                    Volt::route('user-lists', 'shared-components/pages/user-list/index')->name('index');
+                    Volt::route('user-lists.create.{user}', 'shared-components/pages/user-list/user-cru')->name('create');
+                    Volt::route('user-lists.edit.{user}', 'shared-components/pages/user-list/user-cru')->name('edit');
+                    Volt::route('user-lists.deleted', 'shared-components/pages/user-list/deleted-user')->name('deleted');
                 });
             });
 

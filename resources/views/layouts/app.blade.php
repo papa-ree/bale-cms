@@ -26,9 +26,10 @@
     class="min-h-screen bg-gray-100 dark:bg-slate-900 scrollbar-thin scrollbar-thumb-gray-900 scrollbar-track-gray-100/50 overscroll-none">
 
     @if (config('bale-cms.page-loader'))
-        <div class="fixed inset-x-0 top-0 z-[60] w-full h-full bg-white dark:bg-slate-900" x-data="{ loader: true }"
-            x-show="loader" x-init="setTimeout(() => loader = false, 600)" x-transition:leave="transition ease-in duration-300"
-            x-transition:leave-start="opacity-100 scale-100" x-transition:leave-end="opacity-0 scale-100">
+        <div class="fixed inset-x-0 top-0 z-40 w-full h-full px-4 pb-10 bg-white backdrop-blur-md dark:bg-slate-900 sm:px-6 md:px-8 lg:pl-72"
+            x-data="{ loader: true }" x-show="loader" x-init="setTimeout(() => loader = false, 600)"
+            x-transition:leave="transition ease-in duration-300" x-transition:leave-start="opacity-100 scale-100"
+            x-transition:leave-end="opacity-0 scale-100">
             <div class="flex items-center justify-center h-screen mx-auto">
                 <div class="animate-spin inline-block size-10 border-[3px] border-current border-t-transparent text-gray-400 rounded-full"
                     role="status" aria-label="loading">
@@ -39,20 +40,18 @@
         </div>
     @endif
 
-    <livewire:topbar />
-    <livewire:sidebar />
+    <livewire:shared-components.volt.topbar />
+    <livewire:shared-components.volt.sidebar />
 
-    <div class="w-full px-4 py-10 sm:px-6 md:px-8 lg:pl-72">
+    <div class="w-full px-4 pt-5 pb-10 sm:px-6 md:px-8 lg:pl-72">
         <main>
             {{ $slot }}
         </main>
     </div>
 
     @role('developer')
-        <livewire:developer-banner />
+        <livewire:shared-components.volt.developer-banner />
     @endrole
-
-    @livewire('wire-elements-modal')
 
 </body>
 

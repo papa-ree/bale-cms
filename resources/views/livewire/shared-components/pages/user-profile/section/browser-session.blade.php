@@ -50,8 +50,7 @@
     @endif
 
     <div class="flex items-center justify-end mt-5">
-        <x-extend.bale-button label="Log Out Other Browser Sessions" wire:click="confirmLogout"
-            wire:loading.attr="disabled" />
+        <x-bale.button label="Log Out Other Browser Sessions" wire:click="confirmLogout" wire:loading.attr="disabled" />
 
         <x-action-message class="ms-3" on="loggedOut">
             {{ __('Done.') }}
@@ -69,7 +68,7 @@
 
             <div class="mt-4" x-data="{}"
                 x-on:confirming-logout-other-browser-sessions.window="setTimeout(() => $refs.password.focus(), 250)">
-                <x-extend.bale-input type="password" class="block w-3/4 mt-1" autocomplete="current-password"
+                <x-bale.input type="password" class="block w-3/4 mt-1" autocomplete="current-password"
                     placeholder="{{ __('Password') }}" x-ref="password" wire:model="password"
                     wire:keydown.enter="logoutOtherBrowserSessions" />
 
@@ -78,11 +77,11 @@
         </x-slot>
 
         <x-slot name="footer">
-            <x-extend.bale-secondary-button label="cancel" wire:click="$toggle('confirmingLogout')"
+            <x-bale.secondary-button label="cancel" wire:click="$toggle('confirmingLogout')"
                 wire:loading.attr="disabled" />
 
-            <x-extend.bale-button class="ms-3" label="Log Out Other Browser Sessions"
-                wire:click="logoutOtherBrowserSessions" wire:loading.attr="disabled" />
+            <x-bale.button class="ms-3" label="Log Out Other Browser Sessions" wire:click="logoutOtherBrowserSessions"
+                wire:loading.attr="disabled" />
         </x-slot>
     </x-dialog-modal>
 </div>

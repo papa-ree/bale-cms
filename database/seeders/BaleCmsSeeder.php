@@ -11,13 +11,7 @@ class BaleCmsSeeder extends Seeder
         $this->call([
             RolesAndPermissionsSeeder::class,
             UserSeeder::class,
-            SiteConfigSeeder::class,
-            PageSeeder::class,
-            NavigationSeeder::class,
-            ThemeManagementSeeder::class,
-            ServiceSeeder::class,
-            LandingPageManagementSeeder::class,
-            PostSeeder::class,
+            
         ]);
     }
 }

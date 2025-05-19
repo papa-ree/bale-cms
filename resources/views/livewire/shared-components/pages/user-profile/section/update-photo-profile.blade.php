@@ -43,9 +43,9 @@
                 <div class="flex gap-x-2">
                     <div x-on:show-update-button.window="showUpdateButton = $event.detail.params"
                         x-on:show-upload-button.window="showUploadButton = $event.detail.params"></div>
-                    <x-extend.bale-secondary-button x-show="showUploadButton" label="upload photo" type="button"
+                    <x-bale.secondary-button x-show="showUploadButton" label="upload photo" type="button"
                         x-on:click.prevent="$refs.photo.click()" />
-                    <x-extend.bale-button type="submit" x-show="showUpdateButton" label="update photo" />
+                    <x-bale.button type="submit" x-show="showUpdateButton" label="update photo" />
                 </div>
 
             </div>

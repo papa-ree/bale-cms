@@ -1,9 +1,9 @@
 # Bale CMS Core
 
-[![Latest Version on Packagist](https://img.shields.io/packagist/v/paparee/bale-cms.svg?style=flat-square)](https://packagist.org/packages/paparee/bale-cms)
-[![GitHub Tests Action Status](https://img.shields.io/github/actions/workflow/status/paparee/bale-cms/run-tests.yml?branch=main&label=tests&style=flat-square)](https://github.com/paparee/bale-cms/actions?query=workflow%3Arun-tests+branch%3Amain)
-[![GitHub Code Style Action Status](https://img.shields.io/github/actions/workflow/status/paparee/bale-cms/fix-php-code-style-issues.yml?branch=main&label=code%20style&style=flat-square)](https://github.com/paparee/bale-cms/actions?query=workflow%3A"Fix+PHP+code+style+issues"+branch%3Amain)
-[![Total Downloads](https://img.shields.io/packagist/dt/paparee/bale-cms.svg?style=flat-square)](https://packagist.org/packages/paparee/bale-cms)
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/papa-ree/bale-cms.svg?style=flat-square)](https://packagist.org/packages/papa-ree/bale-cms)
+[![GitHub Tests Action Status](https://img.shields.io/github/actions/workflow/status/papa-ree/bale-cms/run-tests.yml?branch=main&label=tests&style=flat-square)](https://github.com/papa-ree/bale-cms/actions?query=workflow%3Arun-tests+branch%3Amain)
+[![GitHub Code Style Action Status](https://img.shields.io/github/actions/workflow/status/papa-ree/bale-cms/fix-php-code-style-issues.yml?branch=main&label=code%20style&style=flat-square)](https://github.com/papa-ree/bale-cms/actions?query=workflow%3A"Fix+PHP+code+style+issues"+branch%3Amain)
+[![Total Downloads](https://img.shields.io/packagist/dt/papa-ree/bale-cms.svg?style=flat-square)](https://packagist.org/packages/papa-ree/bale-cms)
 
 This is where your description should go. Limit it to a paragraph or two. Consider adding a small example.
 
@@ -20,7 +20,7 @@ We highly appreciate you sending us a postcard from your hometown, mentioning wh
 You can install the package via composer:
 
 ```bash
-composer require paparee/bale-cms
+composer require papa-ree/bale-cms
 ```
 
 You can publish and run the migrations with:
@@ -76,7 +76,7 @@ Please review [our security policy](../../security/policy) on how to report secu
 
 ## Credits
 
-- [Papa Ree](https://github.com/paparee)
+- [Papa Ree](https://github.com/papa-ree)
 - [All Contributors](../../contributors)
 
 ## License
