@@ -9,7 +9,8 @@ use App\Livewire\Landlord\Dashboard\Index;
 use App\Livewire\Tenant\Dashboard\Index as TenantDashboardIndex;
 use Paparee\BaleCms\App\Controller\TwoFactorAuthenticatedSessionController;
 use Paparee\BaleCms\App\Controller\UpdateFirebaseTokenController;
-// use App\Livewire\SharedComponents\Pages\UserProfile\Index as UserProfileIndex;
+use App\Livewire\SharedComponents\Pages\UserProfile\Index as UserProfileIndex;
+use Paparee\BaleNawasara\App\Controllers\DnsRecordController;
 
 Route::get('/lang/{locale}', function ($locale) {
     if (! in_array($locale, ['en', 'id'])) {
@@ -73,11 +74,11 @@ Route::localizedGroup(function () {
                 });
             });
 
-            // Route::group(['middleware' => ['permission:manage user profile']], function () {
-            //     Route::name('user-profile.')->group(function () {
-            //         Route::get('user.profiles', UserProfileIndex::class)->name('index');
-            //     });
-            // });
+            Route::group(['middleware' => ['permission:manage user profile']], function () {
+                Route::name('user-profile.')->group(function () {
+                    Route::get('user.profiles', UserProfileIndex::class)->name('index');
+                });
+            });
 
             Route::group(['middleware' => ['permission:role management']], function () {
                 Route::name('roles.')->group(function () {
@@ -107,6 +108,55 @@ Route::localizedGroup(function () {
         //         return redirect()->route('user-profile.index');
         //     })->name('profile.show');
 
+        //  Route::group(['middleware' => ['role:developer', 'permission:dashboard']], function () {
+        //         Route::name('dns.')->group(function () {
+        //             Volt::route('dns', 'nawasara/pages/dns/index')->name('index');
+        //         });
+
+        //         // sync dns record by alpine trigger
+        //         Route::post('/dns-records/sync', [DnsRecordController::class, 'sync'])->name('dns.sync');
+        //         Route::get('/dns-records/status', [DnsRecordController::class, 'status'])->name('dns.status');
+
+        //         Volt::route('/network/ip-publics', 'nawasara/pages/ip/index');
+
+        //         Route::name('tokens.')->group(function () {
+        //             Volt::route('tokens', 'nawasara/pages/token/index')->name('index');
+        //             Volt::route('tokens.create', 'nawasara/pages/token/token-cru')->name('create');
+        //         });
+
+        //     });
+        // });
+
+        // Route::name('inventory-overviews.')->group(function () {
+        //     Volt::route('inventory-overviews', 'inv/pages/overview/index')->name('index');
+        // });
+
+        // Route::name('items.')->group(function () {
+        //     Volt::route('items', 'inv/pages/item/index')->name('index');
+        //     Volt::route('items.create.{item}', 'inv/pages/item/item-cru')->name('create');
+        //     Volt::route('items.edit.{item}', 'inv/pages/item/item-cru')->name('edit');
+        //     Volt::route('items.add-stock', 'inv/pages/item/add-stock-form')->name('add-stock');
+        //     Volt::route('items.opname-stock', 'inv/pages/item/opname-stock-form')->name('opname-stock');
+        // });
+
+        // Route::name('replenishments.')->group(function () {
+        //     Volt::route('replenishments', 'inv/pages/replenishment/index')->name('index');
+        // });
+
+        // Route::name('inventory-movements.')->group(function () {
+        //     Volt::route('inventory-movements', 'inv/pages/inventory-movement/index')->name('index');
+        // });
+
+        // Route::name('assignments.')->group(function () {
+        //     Volt::route('it-inventories', 'inv/pages/assignment/index')->name('index');
+        // });
+        
+        // Route::name('distributions.')->group(function () {
+        //     Volt::route('distributions', 'inv/pages/distribution/index')->name('index');
+        // });
+
+        // Route::name('returns.')->group(function () {
+        //     Volt::route('returns.{item}', 'inv/pages/return/index')->name('index');
         });
     });
 });

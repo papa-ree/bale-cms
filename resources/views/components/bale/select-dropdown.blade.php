@@ -12,7 +12,7 @@
         </svg>
     </button>
 
-    <div class="hs-dropdown-menu transition-[opacity,margin] w-full duration hs-dropdown-open:opacity-100 opacity-0 hidden min-w-60 bg-white shadow-md rounded-lg p-2 mt-2 z-40 dark:bg-neutral-800 dark:border dark:border-neutral-700 dark:divide-neutral-700 after:h-4 after:absolute after:-bottom-4 after:start-0 after:w-full before:h-4 before:absolute before:-top-4 before:start-0 before:w-full"
+    <div class="hs-dropdown-menu border-gray-200 border max-h-96 overflow-y-auto transition-[opacity,margin] w-full duration hs-dropdown-open:opacity-100 opacity-0 hidden min-w-60 bg-white shadow-md rounded-lg p-3 mt-2 z-40 dark:bg-neutral-800 dark:border dark:border-neutral-700 dark:divide-neutral-700 after:absolute after:-bottom-4 after:start-0 after:w-full before:h-4 before:absolute before:-top-4 before:start-0 before:w-full scrollbar-thin scroll-smooth scrollbar-thumb-gray-300"
         aria-labelledby="select-page-dropdown-right-but-left-on-lg">
         {{ $slot }}
     </div>

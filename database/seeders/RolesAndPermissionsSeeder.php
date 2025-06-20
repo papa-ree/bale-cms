@@ -29,30 +29,18 @@ class RolesAndPermissionsSeeder extends Seeder
             "optimize clear",
             "migrate fresh",
             "view logs",
-            "api management",
         ];
 
         // admin permissions
         $admin = [
             'role management',
             'permission management',
-            'manage account',
-            'manage theme',
+            'user management',
+            'token management',
         ];
 
         // user permissions
         $user = [
-            'manage post',
-            'manage profile',
-            'manage site',
-            'manage gallery',
-            'manage announcement',
-            'manage hero',
-            'manage service',
-            'manage navigation',
-            'manage page',
-            'manage user profile',
-            'manage category',
             'view activity log',
             'view login log',
         ];
