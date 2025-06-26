@@ -41,6 +41,11 @@ Route::localizedGroup(function () {
                 ]));
         });
 
+        Route::get('/', function () {
+            return view('welcome');
+        });
+
+
         Route::middleware([
             'auth:sanctum',
             config('jetstream.auth_session'),
@@ -103,60 +108,73 @@ Route::localizedGroup(function () {
                 });
             });
 
-        //     // redirect route
-        //     Route::get('user/profile', function () {
-        //         return redirect()->route('user-profile.index');
-        //     })->name('profile.show');
+            // redirect route
+            Route::get('user/profile', function () {
+                return redirect()->route('user-profile.index');
+            })->name('profile.show');
 
-        //  Route::group(['middleware' => ['role:developer', 'permission:dashboard']], function () {
-        //         Route::name('dns.')->group(function () {
-        //             Volt::route('dns', 'nawasara/pages/dns/index')->name('index');
-        //         });
+            Route::group(['middleware' => ['permission:domain read']], function () {
+                Route::name('dns.')->group(function () {
+                    Volt::route('dns', 'nawasara/pages/dns/index')->name('index');
+                });
 
-        //         // sync dns record by alpine trigger
-        //         Route::post('/dns-records/sync', [DnsRecordController::class, 'sync'])->name('dns.sync');
-        //         Route::get('/dns-records/status', [DnsRecordController::class, 'status'])->name('dns.status');
+                // sync dns record by alpine trigger
+                Route::post('/dns-records/sync', [DnsRecordController::class, 'sync'])->name('dns.sync');
+                Route::get('/dns-records/status', [DnsRecordController::class, 'status'])->name('dns.status');
+            });
 
-        //         Volt::route('/network/ip-publics', 'nawasara/pages/ip/index');
+            Route::group(['middleware' => ['permission:network management']], function () {
+                Volt::route('/network/ip-publics', 'nawasara/pages/ip/index');
+            });
 
-        //         Route::name('tokens.')->group(function () {
-        //             Volt::route('tokens', 'nawasara/pages/token/index')->name('index');
-        //             Volt::route('tokens.create', 'nawasara/pages/token/token-cru')->name('create');
-        //         });
+            Route::group(['middleware' => ['permission:token management']], function () {
+                Route::name('tokens.')->group(function () {
+                    Volt::route('tokens', 'nawasara/pages/token/index')->name('index');
+                    Volt::route('tokens.create', 'nawasara/pages/token/token-cru')->name('create');
+                });
+            });
+        });
 
-        //     });
-        // });
+        Route::group(['middleware' => ['permission:contact read']], function () {
+                Route::name('contacts.')->group(function () {
+                    Volt::route('contacts', 'nawasara/pages/contact/index')->name('index');
+                    Volt::route('contacts.create.{contact}', 'nawasara/pages/contact/contact-cru')->name('create');
+                    Volt::route('contacts.edit.{contact}', 'nawasara/pages/contact/contact-cru')->name('edit');
+                });
+        });
 
-        // Route::name('inventory-overviews.')->group(function () {
-        //     Volt::route('inventory-overviews', 'inv/pages/overview/index')->name('index');
-        // });
+        Route::group(['middleware' => ['permission:inventory management']], function () {
+            Route::name('inventory-overviews.')->group(function () {
+                Volt::route('inventory-overviews', 'inv/pages/overview/index')->name('index');
+            });
 
-        // Route::name('items.')->group(function () {
-        //     Volt::route('items', 'inv/pages/item/index')->name('index');
-        //     Volt::route('items.create.{item}', 'inv/pages/item/item-cru')->name('create');
-        //     Volt::route('items.edit.{item}', 'inv/pages/item/item-cru')->name('edit');
-        //     Volt::route('items.add-stock', 'inv/pages/item/add-stock-form')->name('add-stock');
-        //     Volt::route('items.opname-stock', 'inv/pages/item/opname-stock-form')->name('opname-stock');
-        // });
+            Route::name('items.')->group(function () {
+                Volt::route('items', 'inv/pages/item/index')->name('index');
+                Volt::route('items.create.{item}', 'inv/pages/item/item-cru')->name('create');
+                Volt::route('items.edit.{item}', 'inv/pages/item/item-cru')->name('edit');
+                Volt::route('items.add-stock', 'inv/pages/item/add-stock-form')->name('add-stock');
+                Volt::route('items.opname-stock', 'inv/pages/item/opname-stock-form')->name('opname-stock');
+            });
 
-        // Route::name('replenishments.')->group(function () {
-        //     Volt::route('replenishments', 'inv/pages/replenishment/index')->name('index');
-        // });
+            Route::name('replenishments.')->group(function () {
+                Volt::route('replenishments', 'inv/pages/replenishment/index')->name('index');
+            });
 
-        // Route::name('inventory-movements.')->group(function () {
-        //     Volt::route('inventory-movements', 'inv/pages/inventory-movement/index')->name('index');
-        // });
+            Route::name('inventory-movements.')->group(function () {
+                Volt::route('inventory-movements', 'inv/pages/inventory-movement/index')->name('index');
+            });
 
-        // Route::name('assignments.')->group(function () {
-        //     Volt::route('it-inventories', 'inv/pages/assignment/index')->name('index');
-        // });
-        
-        // Route::name('distributions.')->group(function () {
-        //     Volt::route('distributions', 'inv/pages/distribution/index')->name('index');
-        // });
+            Route::name('assignments.')->group(function () {
+                Volt::route('it-inventories', 'inv/pages/assignment/index')->name('index');
+            });
+            
+            Route::name('distributions.')->group(function () {
+                Volt::route('distributions', 'inv/pages/distribution/index')->name('index');
+            });
 
-        // Route::name('returns.')->group(function () {
-        //     Volt::route('returns.{item}', 'inv/pages/return/index')->name('index');
+            Route::name('returns.')->group(function () {
+                Volt::route('returns.{item}', 'inv/pages/return/index')->name('index');
+            });
         });
     });
 });
