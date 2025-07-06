@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
+use Paparee\BaleNawasara\App\Jobs\GenerateNawasaraSummaryJob;
 use Symfony\Component\HttpFoundation\Response;
 
 class SetTenantConnectionAfterLogin
@@ -40,6 +41,8 @@ class SetTenantConnectionAfterLogin
                 'tenant_db' => $tenantDb
             ]);
         } else {
+            GenerateNawasaraSummaryJob::dispatch();
+
             session(['user_type' => 'landlord']);
         }
 

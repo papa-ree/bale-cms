@@ -50,6 +50,7 @@ Route::localizedGroup(function () {
             'auth:sanctum',
             config('jetstream.auth_session'),
             'verified',
+            'mark user active',
         ])->group(function () {
 
             Route::patch('update-fcm-token', [UpdateFirebaseTokenController::class, 'updateToken'])->name('update-fcm-token');
