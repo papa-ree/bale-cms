@@ -61,7 +61,7 @@ new class extends Component {
         }
     }
 
-    private function update($date, LivewireAlert $alert)
+    private function update($data, LivewireAlert $alert)
     {
         $this->permission_id = $data['permission_id'];
         $this->permission_name = $data['permission_name'];
@@ -124,8 +124,7 @@ new class extends Component {
             this.permissionName = detail.permissionName;
             this.editMode = detail.editMode;
         },
-    }" x-init="init()" @permission-data.window="handlePermissionData($event.detail)"
-        @modal-reset.window="init()">
+    }" x-init="init()" @permission-data.window="handlePermissionData($event.detail)" @modal-reset.window="init()">
 
         <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
             <span x-text="modalTitle"></span>
@@ -142,8 +141,8 @@ new class extends Component {
             <x-bale.modal-action>
                 <x-bale.secondary-button label="Cancel" type="button" class="ml-3"
                     wire:click="$dispatch('closeBaleModal', { id: 'permissionModal' }); $wire.resetVal()" />
-                <x-bale.button label="Save" type="submit" x-show="!editMode" class="ml-3"
-                    wire:dirty.attr="disabled" wire:target='permission_name' @click="useSpinner()" />
+                <x-bale.button label="Save" type="submit" x-show="!editMode" class="ml-3" wire:dirty.attr="disabled"
+                    wire:target='permission_name' @click="useSpinner()" />
                 <x-bale.button label="Update" type="submit" x-show="editMode" wire:dirty.attr="disabled"
                     wire:target='permission_name' @click="useSpinner()" />
             </x-bale.modal-action>

@@ -3,7 +3,7 @@
 
 <div class="hs-dropdown w-full relative inline-flex [--strategy:absolute] [--trigger:click]" {{ $attributes->merge() }}>
     <button id="select-page-dropdown-right-but-left-on-lg" type="button"
-        class="inline-flex items-center justify-between w-full px-4 py-3 text-sm font-medium text-gray-800 bg-white border border-gray-200 rounded-lg shadow-sm hs-dropdown-toggle gap-x-2 hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-white dark:hover:bg-neutral-800">
+        class="inline-flex items-center justify-between w-full px-4 py-3 text-sm font-medium text-gray-800 bg-white border border-gray-200 rounded-lg hs-dropdown-toggle gap-x-2 hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-white dark:hover:bg-neutral-800">
         {{ $defaultValue }}
         <svg class="hs-dropdown-open:rotate-180 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
             viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
