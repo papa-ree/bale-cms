@@ -140,6 +140,7 @@ Route::localizedGroup(function () {
                     Volt::route('contacts', 'nawasara/pages/contact/index')->name('index');
                     Volt::route('contacts.create.{contact}', 'nawasara/pages/contact/contact-cru')->name('create');
                     Volt::route('contacts.edit.{contact}', 'nawasara/pages/contact/contact-cru')->name('edit');
+                    Volt::route('contacts.assign.{contact}', 'nawasara/pages/contact/contact-cru')->name('assign');
                 });
             });
 
