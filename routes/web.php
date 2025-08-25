@@ -126,6 +126,7 @@ Route::localizedGroup(function () {
 
             Route::group(['middleware' => ['permission:network read']], function () {
                 Volt::route('/network/ip-publics', 'nawasara/pages/ip/index');
+                Volt::route('/network/ip-addresses', 'nawasara/pages/ip-address/index');
             });
 
             Route::group(['middleware' => ['permission:token read']], function () {

@@ -148,6 +148,11 @@ new class extends Component {
                                         class="flex capitalize items-center gap-x-3.5 py-2 px-2.5 text-sm text-slate-700 rounded-md hover:bg-gray-200 hover:text-slate-800 duration-200 ease-in-out transition-all hover:dark:bg-gray-900 dark:text-white"
                                         wire:current="bg-gray-100 dark:bg-gray-900">{{ __('IP Public') }}</a>
                                 </li>
+                                <li>
+                                    <a href="/network/ip-addresses" wire:navigate.hover
+                                        class="flex capitalize items-center gap-x-3.5 py-2 px-2.5 text-sm text-slate-700 rounded-md hover:bg-gray-200 hover:text-slate-800 duration-200 ease-in-out transition-all hover:dark:bg-gray-900 dark:text-white"
+                                        wire:current="bg-gray-100 dark:bg-gray-900">{{ __('IP Address and Subnet') }}</a>
+                                </li>
                             </ul>
                         </div>
                     </li>
