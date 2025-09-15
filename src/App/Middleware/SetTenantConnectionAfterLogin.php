@@ -40,6 +40,8 @@ class SetTenantConnectionAfterLogin
                 'user_type' => 'tenant',
                 'tenant_db' => $tenantDb
             ]);
+        } elseif ($user && $user->getRoleNames()->first() == 'guest') {
+            session(['user_type' => 'guest']);
         } else {
             GenerateNawasaraSummaryJob::dispatch();
 

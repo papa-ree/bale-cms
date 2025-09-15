@@ -2,14 +2,21 @@
 
 use App\Livewire\Landlord\Dashboard\Index;
 use App\Livewire\Tenant\Dashboard\Index as TenantDashboardIndex;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Session;
 use Laravel\Fortify\Http\Controllers\AuthenticatedSessionController;
 use Laravel\Fortify\RoutePath;
 use Livewire\Volt\Volt;
 use Paparee\BaleCms\App\Controller\TwoFactorAuthenticatedSessionController;
 use Paparee\BaleCms\App\Controller\UpdateFirebaseTokenController;
 use Paparee\BaleNawasara\App\Controllers\DnsRecordController;
+use Illuminate\Support\Str;
+use Laravel\Socialite\Facades\Socialite;
+
+// use Socialite;
 
 Route::get('/lang/{locale}', function ($locale) {
     if (!in_array($locale, ['en', 'id'])) {
@@ -24,6 +31,80 @@ Route::get('/lang/{locale}', function ($locale) {
 Route::get('/', function () {
     return view('welcome');
 });
+
+// Login Route ============================================================================
+
+Route::post('/logout', function () {
+    $token = session()->get('keycloak_id_token');
+
+    // Logout of your app.
+    Auth::logout();
+    Session::flush(); // Clear the session data
+    Session::regenerate(); // Regenerate the session ID to prevent session fixation attacks
+
+    // The URL the user is redirected to after logout.
+    $redirectUri = Config::get('app.url');
+    $url = Socialite::driver('keycloak')->getLogoutUrl();
+
+    $params = [
+        'id_token_hint' => $token, // Ambil id_token dari session
+        'post_logout_redirect_uri' => $redirectUri, // URL redirect setelah logout
+    ];
+
+    $url .= '?' . http_build_query($params);
+
+    return redirect($url);
+})->name('logout');
+
+Route::get('/login', function () {
+    if (Auth::check()) {
+        return redirect('/');
+    }
+
+    // Jika belum login di Laravel, redirect ke login.silent (biar Keycloak yang tentukan)
+    return redirect()->route('login.silent');
+});
+
+Route::get('/login/silent', function () {
+    return Socialite::driver('keycloak')->redirect();
+})->name('login.silent');
+
+Route::get('/force-login', function () {
+    return Socialite::driver('keycloak')
+        ->with(['prompt' => 'login'])
+        ->redirect();
+})->name('force.login');
+
+
+Route::get('/login/keycloak/callback', function () {
+
+    try {
+        $user = Socialite::driver('keycloak')->user();
+        // dd($user->accessTokenResponseBody['id_token']); // Debugging: tampilkan informasi user yang didapat dari Keycloak
+
+        // Buat login ke aplikasi Laravel, bisa pakai email / ID dari Keycloak
+        $authUser = User::firstOrCreate([
+            'nip' => $user->getNickname(),
+        ], [
+            'uuid' => $user->getId(),
+            'name' => $user->getName(),
+            'username' => $user->getNickname(),
+            'email' => $user->getEmail(),
+            'password' => bcrypt(Str::random(16)), // password random
+        ]);
+
+        $authUser->assignRole('guest');
+
+        Auth::login($authUser, true);
+
+        session(['keycloak_id_token' => $user->accessTokenResponseBody['id_token']]);
+        return redirect('/dashboard');
+    } catch (\Exception $e) {
+        // Silent login gagal (karena user belum login di Keycloak)
+        return redirect()->route('force.login'); // misalnya redirect ke login normal
+    }
+});
+// End Login Route =======================================================================================
 
 // landing with theme route
 Route::localizedGroup(function () {
@@ -61,6 +142,10 @@ Route::localizedGroup(function () {
                     return redirect()->route('tenant-dashboard.index');
                 }
 
+                if ($user->getRoleNames()->first() == 'guest') {
+                    return redirect()->route('guest-dashboard.index');
+                }
+
                 return redirect()->route('landlord-dashboard.index');
             })->name('dashboard');
 
@@ -75,6 +160,13 @@ Route::localizedGroup(function () {
             Route::group(['middleware' => ['permission:dashboard tenant']], function () {
                 Route::name('tenant-dashboard.')->group(function () {
                     Route::get('dashboard/tenant', TenantDashboardIndex::class)->name('index');
+                });
+            });
+
+            // guest dashboard route
+            Route::group(['middleware' => ['permission:waiting room']], function () {
+                Route::name('guest-dashboard.')->group(function () {
+                    Volt::route('guest', 'guest/dashboard/index')->name('index');
                 });
             });
 

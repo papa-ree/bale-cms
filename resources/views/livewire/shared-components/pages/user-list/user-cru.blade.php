@@ -15,11 +15,6 @@ state(['name', 'username', 'email', 'password', 'role_name', 'user', 'edit_mode'
 title(fn() => $this->edit_mode ? 'Edit User' : 'Create User');
 
 mount(function ($user) {
-    // dump(
-    //     url()
-    //         ->current()
-    //         ->hasAny(['create']),
-    // );
     $this->authorize('user management');
 
     $this->user = User::whereUuid($user)->first();
@@ -45,7 +40,12 @@ rules(
 );
 
 $availableRoles = computed(function () {
-    return Role::whereNotIn('name', ['developer'])->get('name');
+    if (Auth::user()->getRoleNames()->first() == 'developer') {
+        $roles = Role::get('name');
+    } else {
+        $roles = Role::whereNotIn('name', ['developer'])->get('name');
+    }
+    return $roles;
 });
 
 $store = function (LivewireAlert $alert) {
@@ -190,8 +190,7 @@ $update = function (LivewireAlert $alert) {
             </div>
 
             <div class="mb-4 sm:mb-6">
-                <x-bale.input wire:model='email' type="email" placeholder="email" label="email" type="email"
-                    required />
+                <x-bale.input wire:model='email' type="email" placeholder="email" label="email" type="email" required />
                 <x-input-error for="email" />
             </div>
 
@@ -206,8 +205,7 @@ $update = function (LivewireAlert $alert) {
             @endif
 
             <div class="relative mb-4 sm:mb-6">
-                <div class=""
-                    :class="changePassword ? '' :
+                <div class="" :class="changePassword ? '' :
                         'absolute top-0 rounded-lg start-0 size-full z-10 bg-white/50 dark:bg-neutral-800/40'">
                 </div>
                 <x-bale.input wire:model='password' x-model="balepassword" placeholder="password" label="password"
