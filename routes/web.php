@@ -16,6 +16,8 @@ use Paparee\BaleNawasara\App\Controllers\DnsRecordController;
 use Illuminate\Support\Str;
 use Laravel\Socialite\Facades\Socialite;
 
+// use Paparee\BaleNawasara\Livewire\Pages\Guest\Index as GuestIndex;
+
 // use Socialite;
 
 Route::get('/lang/{locale}', function ($locale) {
@@ -33,7 +35,6 @@ Route::get('/', function () {
 });
 
 // Login Route ============================================================================
-
 Route::post('/logout', function () {
     $token = session()->get('keycloak_id_token');
 
@@ -75,7 +76,6 @@ Route::get('/force-login', function () {
         ->redirect();
 })->name('force.login');
 
-
 Route::get('/login/keycloak/callback', function () {
 
     try {
@@ -93,7 +93,7 @@ Route::get('/login/keycloak/callback', function () {
             'password' => bcrypt(Str::random(16)), // password random
         ]);
 
-        $authUser->assignRole('guest');
+        $authUser->syncRoles('guest');
 
         Auth::login($authUser, true);
 
@@ -124,6 +124,12 @@ Route::localizedGroup(function () {
                     $twoFactorLimiter ? 'throttle:' . $twoFactorLimiter : null,
                 ]));
         });
+
+        // landing page route
+        Route::name('helpdesk.')->group(function () {
+            Volt::route('bantuan', 'nawasara/landing-page/helpdesk/index')->name('index');
+        });
+        // end landing page route
 
         Route::middleware([
             'auth:sanctum',
@@ -166,7 +172,7 @@ Route::localizedGroup(function () {
             // guest dashboard route
             Route::group(['middleware' => ['permission:waiting room']], function () {
                 Route::name('guest-dashboard.')->group(function () {
-                    Volt::route('guest', 'guest/dashboard/index')->name('index');
+                    Volt::route('guest', 'nawasara/pages/guest/index')->name('index');
                 });
             });
 
@@ -282,6 +288,13 @@ Route::localizedGroup(function () {
             Route::group(['middleware' => ['permission:inventory device type read']], function () {
                 Route::name('device-types.')->group(function () {
                     Volt::route('/device-types', 'inv/pages/device-type/index')->name('index');
+                });
+            });
+
+            Route::group(['middleware' => ['role:guest']], function () {
+                Route::name('notification-gateway.')->group(function () {
+                    Volt::route('/notification-gateway', 'guest/pages/notification-gateway/index')->name('index');
+                    Volt::route('/notification-gateway.create.{template}', 'guest/pages/notification-gateway/index')->name('index');
                 });
             });
         });

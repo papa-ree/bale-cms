@@ -143,7 +143,7 @@ $update = function (LivewireAlert $alert) {
             ]);
         }
 
-        $this->user->assignRole($this->role_name);
+        $this->user->syncRoles([$this->role_name]);
 
         DB::commit();
         session()->flash('saved', [
