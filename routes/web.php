@@ -93,7 +93,10 @@ Route::get('/login/keycloak/callback', function () {
             'password' => bcrypt(Str::random(16)), // password random
         ]);
 
-        $authUser->syncRoles('guest');
+        // jika user baru maka set role sebagai guest
+        if (!$authUser->getRoleNames()->first()) {
+            $authUser->syncRoles('guest');
+        }
 
         Auth::login($authUser, true);
 
@@ -231,6 +234,12 @@ Route::localizedGroup(function () {
                 Route::name('tokens.')->group(function () {
                     Volt::route('tokens', 'nawasara/pages/token/index')->name('index');
                     Volt::route('tokens.create', 'nawasara/pages/token/token-cru')->name('create');
+                });
+            });
+
+            Route::group(['middleware' => ['permission:token read']], function () {
+                Route::name('helpdesks.')->group(function () {
+                    Volt::route('helpdesks', 'nawasara/pages/helpdesk/index')->name('index');
                 });
             });
 
