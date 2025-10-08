@@ -237,9 +237,9 @@ Route::localizedGroup(function () {
                 });
             });
 
-            Route::group(['middleware' => ['permission:token read']], function () {
-                Route::name('helpdesks.')->group(function () {
-                    Volt::route('helpdesks', 'nawasara/pages/helpdesk/index')->name('index');
+            Route::group(['middleware' => ['permission:helpdesk read']], function () {
+                Route::name('tickets.')->group(function () {
+                    Volt::route('tickets', 'nawasara/pages/ticket/index')->name('index');
                 });
             });
 
